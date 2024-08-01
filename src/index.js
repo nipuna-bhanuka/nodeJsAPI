@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const ip = require('ip');
 const Response = require('./domain/response.js');
 const logger = require('./util/logger.js');
+const Httpstatus = require('./controller/patient.controller.js')
 
 dotenv.config();
 
@@ -14,10 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req,res)=>{
-    res.send(new Response(200, 'Ok', 'Patient API, v1.0.0', 
-        {patients : 
-            {name : 'nimal'}
-        } ));
+    res.send(new Response(Httpstatus.OK.code, Httpstatus.OK.status, 'Patient API, v1.0.0' ));
 });
 
 

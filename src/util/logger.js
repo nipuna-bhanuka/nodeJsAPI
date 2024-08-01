@@ -1,7 +1,7 @@
 const pino = require('pino');
 
 // Create a logger
-const log = pino({
+const logger = pino({
     base : {pid : false},
     transport : {
         target : 'pino-pretty',
@@ -12,4 +12,4 @@ const log = pino({
     timestamp: () => `, "time" : "${new Date().toLocaleString()}"`
 });
 
-module.exports = log
+module.exports = logger
