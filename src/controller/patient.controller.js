@@ -1,6 +1,6 @@
 const database = require('../config/mysql.config.js');
 const Response = require('../domain/response.js');
-const logger = require('../domain/response.js');
+const logger = require('../util/logger.js');
 const QUERY = require('../query/patient.query.js');
 
 const Httpstatus = {
@@ -13,7 +13,7 @@ const Httpstatus = {
 };
 
 
-export const getPatients = (req,res) =>{
+const getPatients = (req,res) =>{
     logger.info(`${req.method} ${req.originalurl}, fetching patients`);
     database.query(QUERY.SELECT_PATIENTS, (error,results)=>{
         if(!results){
@@ -26,7 +26,7 @@ export const getPatients = (req,res) =>{
     })
 };
 
-export const getPatient = (req,res) =>{
+const getPatient = (req,res) =>{
     logger.info(`${req.method} ${req.originalurl}, fetching patient`);
     database.query(QUERY.SELECT_PATIENT, [req.params.id], (error,results)=>{
         if(!results[0]){
@@ -39,7 +39,7 @@ export const getPatient = (req,res) =>{
     })
 };
 
-export const createPatient = (req,res) =>{
+const createPatient = (req,res) =>{
     logger.info(`${req.method} ${req.originalurl}, creating patient`);
     database.query(QUERY.CREATE_PATIENT, Object.values(req.body), (error,results) => {
         if(!results){
@@ -54,7 +54,7 @@ export const createPatient = (req,res) =>{
     })
 };
 
-export const updatePatient = (req,res) =>{
+const updatePatient = (req,res) =>{
     logger.info(`${req.method} ${req.originalurl}, fetching patient`);
     database.query(QUERY.SELECT_PATIENT, [req.params.id], (error,results)=>{
         if(!results[0]){
@@ -77,7 +77,7 @@ export const updatePatient = (req,res) =>{
     })
 };
 
-export const deletePatient = (req,res) =>{
+const deletePatient = (req,res) =>{
     logger.info(`${req.method} ${req.originalurl}, deleting patient`);
     database.query(QUERY.DELETE_PATIENT, [req.params.id], (error,results)=>{
         if(results.affectedRows >0){
@@ -92,5 +92,12 @@ export const deletePatient = (req,res) =>{
 };
 
 
-module.exports = Httpstatus;
+module.exports = {
+    Httpstatus,
+    getPatients,
+    getPatient,
+    createPatient,
+    updatePatient,
+    deletePatient
+};
 
