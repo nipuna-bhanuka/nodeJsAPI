@@ -5,7 +5,7 @@ const QUERY = {
 
     CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, phone, address, diagnosis, image_url) VALUES (?,?,?,?,?,?,?)',
 
-    UPDATE_PATIENT: 'UPDATE pateints SET first_name = ?, last_name = ?, email = ?, phone = ?, address = ?, diagnosis = ?, image_url = ? WHERE id = ?',
+    UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, phone = ?, address = ?, diagnosis = ?, image_url = ? WHERE id = ?',
 
     DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
 };

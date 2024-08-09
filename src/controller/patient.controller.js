@@ -21,15 +21,15 @@ const getPatients = (req,res) =>{
                 .send(new Response(Httpstatus.OK.code, Httpstatus.OK.status, `no patients found`));
         } else {
             res.status(Httpstatus.OK.code)
-                .send(new Response(Httpstatus.OK.code, Httpstatus.OK.status, `patients retrived`));     
+                .send(new Response(Httpstatus.OK.code, Httpstatus.OK.status, `patients retrived`,results));     
         }
     })
 };
 
 const getPatient = (req,res) =>{
     logger.info(`${req.method} ${req.originalurl}, fetching patient`);
-    database.query(QUERY.SELECT_PATIENT, [req.params.id], (error,results)=>{
-        if(!results[0]){
+    database.query(QUERY.SELECT_PATIENT, [req.params.id], (error,result)=>{
+        if(!result[0]){
             res.status(Httpstatus.NOT_FOUND.code)
                 .send(new Response(Httpstatus.NOT_FOUND.code, Httpstatus.NOT_FOUND.status, `no patient found ${req.params.id}`));
         } else {
@@ -79,8 +79,8 @@ const updatePatient = (req,res) =>{
 
 const deletePatient = (req,res) =>{
     logger.info(`${req.method} ${req.originalurl}, deleting patient`);
-    database.query(QUERY.DELETE_PATIENT, [req.params.id], (error,results)=>{
-        if(results.affectedRows >0){
+    database.query(QUERY.DELETE_PATIENT, [req.params.id], (error,result)=>{
+        if(result.affectedRows >0){
             res.status(Httpstatus.OK.code)
                 .send(new Response(Httpstatus.OK.code, Httpstatus.OK.status, `patient deleted`, result[0]));  
         } else {
