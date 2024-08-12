@@ -1,0 +1,11 @@
+//down container
+docker-compose down
+
+// create container and run
+docker-compose up -d   
+
+//check running containers
+docker ps
+
+//run sql script
+mysql -h localhost -P 3308 --protocol=tcp -u root -padmin

@@ -14,7 +14,7 @@ const Httpstatus = {
 
 
 const getPatients = (req,res) =>{
-    logger.info(`${req.method} ${req.originalurl}, fetching patients`);
+    logger.info(`${req.method} ${req.originalUrl}, fetching patients`);
     database.query(QUERY.SELECT_PATIENTS, (error,results)=>{
         if(!results){
             res.status(Httpstatus.OK.code)
@@ -27,7 +27,7 @@ const getPatients = (req,res) =>{
 };
 
 const getPatient = (req,res) =>{
-    logger.info(`${req.method} ${req.originalurl}, fetching patient`);
+    logger.info(`${req.method} ${req.originalUrl}, fetching patient`);
     database.query(QUERY.SELECT_PATIENT, [req.params.id], (error,result)=>{
         if(!result[0]){
             res.status(Httpstatus.NOT_FOUND.code)
@@ -40,14 +40,15 @@ const getPatient = (req,res) =>{
 };
 
 const createPatient = (req,res) =>{
-    logger.info(`${req.method} ${req.originalurl}, creating patient`);
-    database.query(QUERY.CREATE_PATIENT, Object.values(req.body), (error,results) => {
+    logger.info(`${req.method} ${req.originalUrl}, creating patient`);
+    database.query(QUERY.CREATE_PATIENT_PROCEDURE, Object.values(req.body), (error,results) => {
         if(!results){
             logger.error(error.message);
             res.status(Httpstatus.INTERNAL_SERVER_ERROR.code)
                 .send(new Response(Httpstatus.INTERNAL_SERVER_ERROR.code, Httpstatus.INTERNAL_SERVER_ERROR.status, `error occured`));
         } else {
-            const patient = {id: results.insertedId, ...req.body, created_at: new Date()};
+            //const patient = {id: results.insertedId, ...req.body, created_at: new Date()};
+            const patient = results[0][0];
             res.status(Httpstatus.CREATED.code)
                 .send(new Response(Httpstatus.CREATED.code, Httpstatus.CREATED.status, `patient created`, {patient}));     
         }
@@ -55,13 +56,13 @@ const createPatient = (req,res) =>{
 };
 
 const updatePatient = (req,res) =>{
-    logger.info(`${req.method} ${req.originalurl}, fetching patient`);
+    logger.info(`${req.method} ${req.originalUrl}, fetching patient`);
     database.query(QUERY.SELECT_PATIENT, [req.params.id], (error,results)=>{
         if(!results[0]){
             res.status(Httpstatus.NOT_FOUND.code)
                 .send(new Response(Httpstatus.NOT_FOUND.code, Httpstatus.NOT_FOUND.status, `no patient found ${req.params.id}`));
         } else {
-            logger.info(`${req.method} ${req.originalurl}, updating patient`)
+            logger.info(`${req.method} ${req.originalUrl}, updating patient`)
             database.query(QUERY.UPDATE_PATIENT, [...Object.values(req.body), req.params.id], (error,result)=>{
                 if(!error){
                     res.status(Httpstatus.OK.code)
@@ -78,7 +79,7 @@ const updatePatient = (req,res) =>{
 };
 
 const deletePatient = (req,res) =>{
-    logger.info(`${req.method} ${req.originalurl}, deleting patient`);
+    logger.info(`${req.method} ${req.originalUrl}, deleting patient`);
     database.query(QUERY.DELETE_PATIENT, [req.params.id], (error,result)=>{
         if(result.affectedRows >0){
             res.status(Httpstatus.OK.code)

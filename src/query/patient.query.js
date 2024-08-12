@@ -8,6 +8,8 @@ const QUERY = {
     UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, phone = ?, address = ?, diagnosis = ?, image_url = ? WHERE id = ?',
 
     DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
+
+    CREATE_PATIENT_PROCEDURE: 'CALL create_return_patient(?,?,?,?,?,?,?)'
 };
 
 module.exports = QUERY;
